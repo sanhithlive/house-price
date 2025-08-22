@@ -9,19 +9,113 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import joblib
 import os
+# Assuming these are custom modules you have created.
+# Make sure the files 'data_processor.py', 'model_trainer.py', and 'utils.py'
+# are in the same directory as this script.
 from data_processor import DataProcessor
 from model_trainer import ModelTrainer
 from utils import format_currency, create_prediction_explanation
 
-# Page configuration
+# Page configuration (unchanged, but enhanced with macOS-inspired icon if possible; Streamlit limits this)
 st.set_page_config(
     page_title="Hyderabad House Price Predictor",
-    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Initialize session state
+# --- NEW: Add macOS-inspired custom CSS for aesthetic enhancements ---
+# This includes:
+# - Subtle gradient background mimicking macOS wallpaper styles (light blue-gray gradient for a clean, modern look).
+# - System font stack for typography (San Francisco-like: -apple-system, BlinkMacSystemFont, etc.).
+# - Rounded corners on elements for a softer, macOS-like feel.
+# - Subtle shadows for depth on containers, buttons, and metrics.
+# - Hover animations: Scale and shadow increase on buttons for interactivity.
+# - Translucent sidebar with blur effect (using backdrop-filter for macOS vibrancy).
+# - Fade-in animations for page content to enhance user experience.
+# - Ensures responsiveness and accessibility (e.g., high contrast, focus states).
+st.markdown("""
+    <style>
+    /* Global styles */
+    .stApp {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* Subtle macOS-inspired gradient */
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    /* Sidebar styling: Translucent with blur, rounded, shadow for depth */
+    section[data-testid="stSidebar"] {
+        background-color: rgba(255, 255, 255, 0.8) !important;
+        backdrop-filter: blur(10px) !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+        margin: 10px !important;
+        padding: 20px !important;
+    }
+    
+    /* Headers: Clean, bold typography */
+    h1, h2, h3, h4, h5, h6 {
+        color: #1c1c1e !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Buttons: Rounded, shadow, hover animation (scale + shadow) */
+    .stButton > button {
+        background-color: #007aff !important; /* macOS blue */
+        color: white !important;
+        border-radius: 8px !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+        transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    }
+    .stButton > button:hover {
+        transform: scale(1.05) !important;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+    }
+    .stButton > button:focus {
+        outline: 2px solid #007aff !important; /* Accessibility focus */
+    }
+    
+    /* Metrics and containers: Rounded, subtle shadow */
+    [data-testid="metric-container"] {
+        background-color: white !important;
+        border-radius: 12px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+        padding: 16px !important;
+        transition: box-shadow 0.3s ease !important;
+    }
+    [data-testid="metric-container"]:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    /* Selectboxes and inputs: Rounded, subtle border */
+    .stSelectbox > div, .stNumberInput > div {
+        border-radius: 8px !important;
+        border: 1px solid #d1d1d6 !important;
+        background-color: white !important;
+    }
+    
+    /* Fade-in animation for main content */
+    .main-content {
+        animation: fadeIn 0.5s ease-in-out !important;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Plotly charts: Add subtle border and shadow */
+    .js-plotly-plot {
+        border-radius: 12px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+    }
+    
+    /* Ensure responsiveness */
+    @media (max-width: 768px) {
+        .stApp { background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); }
+        section[data-testid="stSidebar"] { margin: 5px !important; padding: 10px !important; }
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# Initialize session state (unchanged)
 if 'model_trained' not in st.session_state:
     st.session_state.model_trained = False
 if 'model' not in st.session_state:
@@ -32,10 +126,10 @@ if 'model_metrics' not in st.session_state:
     st.session_state.model_metrics = None
 
 def load_and_process_data():
-    """Load and process the house data"""
+    """Load and process the house data (unchanged)"""
     try:
         # Load the CSV file
-        data_file = "Hyderabad_House_Data.csv"
+        data_file = "attached_assets/Hyderabad_House_Data_1755501086395.csv"
         
         if not os.path.exists(data_file):
             st.error(f"Data file not found: {data_file}")
@@ -56,7 +150,7 @@ def load_and_process_data():
         return None
 
 def train_model(data):
-    """Train the machine learning model"""
+    """Train the machine learning model (unchanged)"""
     try:
         trainer = ModelTrainer()
         model, metrics, feature_names = trainer.train_model(data)
@@ -68,24 +162,27 @@ def train_model(data):
         return None, None, None
 
 def main():
-    # Title and description
-    st.title(" Hyderabad House Price Predictor")
+    # Title and description (wrapped in div for fade-in animation)
+    st.markdown('<div class="main-content">', unsafe_allow_html=True)
+    st.title("Hyderabad House Price Predictor")
     st.markdown("""
     Welcome to the intelligent house price prediction system for Hyderabad! 
     This application uses advanced machine learning to estimate property values based on key features.
     """)
+    st.markdown('</div>', unsafe_allow_html=True)
     
-    # Sidebar for navigation
+    # Sidebar for navigation (unchanged, but styled via CSS)
     st.sidebar.title("Navigation")
+    # Removed "Help" from the page selection
     page = st.sidebar.selectbox("Choose a page:", 
-                               ["Price Prediction", "Model Performance", "Data Insights", "Help"])
+                                  ["Price Prediction", "Model Performance", "Data Insights"])
     
-    # Load data if not already loaded
+    # Load data if not already loaded (unchanged)
     if st.session_state.processed_data is None:
         with st.spinner("Loading and processing data..."):
             st.session_state.processed_data = load_and_process_data()
     
-    # Train model if not already trained
+    # Train model if not already trained (unchanged)
     if not st.session_state.model_trained and st.session_state.processed_data is not None:
         with st.spinner("Training machine learning model..."):
             model, metrics, feature_names = train_model(st.session_state.processed_data)
@@ -100,25 +197,26 @@ def main():
         st.error("Unable to load data. Please check the data file.")
         return
     
-    # Page routing
+    # Page routing (wrapped in div for fade-in per page)
+    st.markdown('<div class="main-content">', unsafe_allow_html=True)
     if page == "Price Prediction":
         show_prediction_page()
     elif page == "Model Performance":
         show_model_performance()
     elif page == "Data Insights":
         show_data_insights()
-    elif page == "Help":
-        show_help_page()
+    st.markdown('</div>', unsafe_allow_html=True)
+    # The 'elif page == "Help":' block has been removed.
 
 def show_prediction_page():
-    """Main prediction interface"""
-    st.header(" Predict House Price")
+    """Main prediction interface (unchanged logic, but with fade-in wrappers)"""
+    st.header("HYD Predict House Price")
     
     if not st.session_state.model_trained:
         st.warning("Model is still training. Please wait...")
         return
     
-    # Create input form
+    # Create input form (styled via CSS)
     col1, col2 = st.columns(2)
     
     with col1:
@@ -180,7 +278,7 @@ def show_prediction_page():
             help="Enter the property area in square feet"
         )
     
-    # Prediction button
+    # Prediction button (styled with hover animation via CSS)
     if st.button(" Predict Price", type="primary"):
         try:
             # Prepare input data
@@ -238,7 +336,7 @@ def show_prediction_page():
             st.error(f"Error making prediction: {str(e)}")
 
 def show_model_performance():
-    """Display model performance metrics"""
+    """Display model performance metrics (unchanged logic, styled via CSS for metrics and charts)"""
     st.header(" Model Performance")
     
     if not st.session_state.model_trained or st.session_state.model_metrics is None:
@@ -317,8 +415,8 @@ def show_model_performance():
     """)
 
 def show_data_insights():
-    """Display data insights and visualizations"""
-    st.header("Data Insights")
+    """Display data insights and visualizations (unchanged logic, styled via CSS for metrics and charts)"""
+    st.header(" Data Analysis & Insights")
     
     data = st.session_state.processed_data
     
@@ -381,7 +479,7 @@ def show_data_insights():
     st.plotly_chart(fig3, use_container_width=True)
     
     # Price vs Area scatter plot
-    st.subheader(" Price vs Area Analysis")
+    st.subheader("Price vs Area Analysis")
     fig4 = px.scatter(
         data,
         x='Area_clean',
@@ -393,91 +491,8 @@ def show_data_insights():
     )
     st.plotly_chart(fig4, use_container_width=True)
 
-def show_help_page():
-    """Display help and instructions"""
-    st.header(" Help & Instructions")
-    
-    st.markdown("""
-    ##  How to Use This Application
-    
-    ### **Price Prediction Page**
-    1. **Select Property Details**: Choose the number of bedrooms, bathrooms, and furnishing type
-    2. **Enter Location**: Select the locality from the dropdown menu
-    3. **Specify Area**: Input the property area in square feet
-    4. **Get Prediction**: Click the "Predict Price" button to get your estimate
-    
-    ### **Understanding Results**
-    - **Predicted Price**: The estimated monthly rent for the property
-    - **Price Range**: A confidence interval showing the likely price range
-    - **Price per Sq Ft**: Helps compare value across different property sizes
-    
-    ### **Model Performance Page**
-    View detailed metrics about how well our prediction model performs:
-    - **R² Score**: Higher values (closer to 1) indicate better predictions
-    - **MAE/RMSE**: Lower values indicate more accurate predictions
-    - **Feature Importance**: Shows which factors most influence price predictions
-    
-    ### **Data Insights Page**
-    Explore trends and patterns in the Hyderabad rental market:
-    - Price distributions across different property types
-    - Most expensive localities
-    - Relationship between area and price
-    
-    ## 🔍 Key Features Affecting Price
-    
-    ### **Primary Factors**
-    1. **Locality**: Location is the biggest factor in determining rent
-    2. **Area**: Larger properties generally command higher rents
-    3. **Bedrooms**: More bedrooms typically mean higher prices
-    4. **Furnishing**: Furnished properties usually rent for more
-    
-    ### **Tips for Accurate Predictions**
-    - Ensure the area input matches the actual property size
-    - Select the correct locality for the most accurate estimate
-    - Consider market conditions that might affect current pricing
-    
-    ##  About the Model
-    
-    Our prediction model uses **Random Forest Regression**, which:
-    - Analyzes historical rental data from Hyderabad
-    - Considers multiple factors simultaneously
-    - Provides reliable estimates based on similar properties
-    - Continuously learns from new data patterns
-    
-    ## ⚠Important Notes
-    
-    ### **Limitations**
-    - Predictions are estimates based on historical data
-    - Actual market prices may vary due to current demand/supply
-    - The model works best for properties similar to those in our training data
-    
-    ### **Best Practices**
-    - Use predictions as a starting point for price negotiations
-    - Consider current market trends and conditions
-    - Verify locality names for accuracy
-    - Cross-reference with current market listings
-    
-    ##  Technical Information
-    
-    ### **Data Processing**
-    - Data cleaned and validated for accuracy
-    - Outliers removed to improve prediction quality
-    - Categorical variables properly encoded
-    
-    ### **Model Training**
-    - 5-fold cross-validation for robust performance
-    - Feature engineering for optimal predictions
-    - Regular model updates with new data
-    
-    ##  Support
-    
-    If you encounter any issues or have questions:
-    - Check that all input fields are properly filled
-    - Ensure area values are reasonable (300-5000 sq ft)
-    - Try different locality selections if one seems incorrect
-    
-    **Remember**: This tool is designed to assist team leaders and managers in making informed decisions about property rentals in Hyderabad!
-    """)
+
+# The 'show_help_page' function has been completely removed.
 
 if __name__ == "__main__":
     main()
