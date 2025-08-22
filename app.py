@@ -218,7 +218,7 @@ if 'model_metrics' not in st.session_state:
 def load_and_process_data():
     """Load and process the house data"""
     try:
-        data_file = "attached_assets/Hyderabad_House_Data_1755501086395.csv"
+        data_file = "Hyderabad_House_Data_1755501086395.csv"
         if not os.path.exists(data_file):
             st.error(f"Data file not found: {data_file}")
             st.info("Please ensure the data file is in the correct location.")
