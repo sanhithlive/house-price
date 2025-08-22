@@ -37,7 +37,7 @@ def load_and_process_data():
     """Load and process the house data"""
     try:
         # Load the CSV file
-        data_file = "attached_assets/Hyderabad_House_Data_1755501086395.csv"
+        data_file = "Hyderabad_House_Data_1755501086395.csv"
         
         if not os.path.exists(data_file):
             st.error(f"Data file not found: {data_file}")
