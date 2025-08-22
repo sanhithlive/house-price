@@ -16,7 +16,7 @@ from utils import format_currency, create_prediction_explanation
 # Page configuration
 st.set_page_config(
     page_title="Hyderabad House Price Predictor",
-    page_icon="🏠",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -69,7 +69,7 @@ def train_model(data):
 
 def main():
     # Title and description
-    st.title("🏠 Hyderabad House Price Predictor")
+    st.title(" Hyderabad House Price Predictor")
     st.markdown("""
     Welcome to the intelligent house price prediction system for Hyderabad! 
     This application uses advanced machine learning to estimate property values based on key features.
@@ -112,7 +112,7 @@ def main():
 
 def show_prediction_page():
     """Main prediction interface"""
-    st.header("🔮 Predict House Price")
+    st.header(" Predict House Price")
     
     if not st.session_state.model_trained:
         st.warning("Model is still training. Please wait...")
@@ -181,7 +181,7 @@ def show_prediction_page():
         )
     
     # Prediction button
-    if st.button("🎯 Predict Price", type="primary"):
+    if st.button(" Predict Price", type="primary"):
         try:
             # Prepare input data
             processor = DataProcessor()
@@ -228,7 +228,7 @@ def show_prediction_page():
                 )
             
             # Explanation
-            st.subheader("📊 Prediction Explanation")
+            st.subheader(" Prediction Explanation")
             explanation = create_prediction_explanation(
                 bedrooms, locality, area, furnishing, prediction
             )
@@ -239,7 +239,7 @@ def show_prediction_page():
 
 def show_model_performance():
     """Display model performance metrics"""
-    st.header("📈 Model Performance")
+    st.header(" Model Performance")
     
     if not st.session_state.model_trained or st.session_state.model_metrics is None:
         st.warning("Model metrics not available. Please train the model first.")
@@ -280,7 +280,7 @@ def show_model_performance():
     
     # Feature importance
     if 'feature_importance' in metrics:
-        st.subheader("🎯 Feature Importance")
+        st.subheader(" Feature Importance")
         
         importance_df = pd.DataFrame({
             'Feature': st.session_state.feature_names,
@@ -299,7 +299,7 @@ def show_model_performance():
         st.plotly_chart(fig, use_container_width=True)
     
     # Model details
-    st.subheader("🔍 Model Details")
+    st.subheader(" Model Details")
     st.info("""
     **Model Type:** Random Forest Regressor
     
@@ -318,12 +318,12 @@ def show_model_performance():
 
 def show_data_insights():
     """Display data insights and visualizations"""
-    st.header("📊 Data Insights")
+    st.header("Data Insights")
     
     data = st.session_state.processed_data
     
     # Summary statistics
-    st.subheader("📋 Dataset Summary")
+    st.subheader(" Dataset Summary")
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
@@ -364,7 +364,7 @@ def show_data_insights():
         st.plotly_chart(fig2, use_container_width=True)
     
     # Top localities by average price
-    st.subheader("🏙️ Top Localities by Average Price")
+    st.subheader(" Top Localities by Average Price")
     locality_avg = data.groupby('Locality_clean')['Price_clean'].agg(['mean', 'count']).reset_index()
     locality_avg = locality_avg[locality_avg['count'] >= 3]  # At least 3 properties
     locality_avg = locality_avg.sort_values('mean', ascending=False).head(15)
@@ -381,7 +381,7 @@ def show_data_insights():
     st.plotly_chart(fig3, use_container_width=True)
     
     # Price vs Area scatter plot
-    st.subheader("📏 Price vs Area Analysis")
+    st.subheader(" Price vs Area Analysis")
     fig4 = px.scatter(
         data,
         x='Area_clean',
@@ -395,10 +395,10 @@ def show_data_insights():
 
 def show_help_page():
     """Display help and instructions"""
-    st.header("❓ Help & Instructions")
+    st.header(" Help & Instructions")
     
     st.markdown("""
-    ## 🎯 How to Use This Application
+    ##  How to Use This Application
     
     ### **Price Prediction Page**
     1. **Select Property Details**: Choose the number of bedrooms, bathrooms, and furnishing type
@@ -436,7 +436,7 @@ def show_help_page():
     - Select the correct locality for the most accurate estimate
     - Consider market conditions that might affect current pricing
     
-    ## 📊 About the Model
+    ##  About the Model
     
     Our prediction model uses **Random Forest Regression**, which:
     - Analyzes historical rental data from Hyderabad
@@ -444,7 +444,7 @@ def show_help_page():
     - Provides reliable estimates based on similar properties
     - Continuously learns from new data patterns
     
-    ## ⚠️ Important Notes
+    ## ⚠Important Notes
     
     ### **Limitations**
     - Predictions are estimates based on historical data
@@ -457,7 +457,7 @@ def show_help_page():
     - Verify locality names for accuracy
     - Cross-reference with current market listings
     
-    ## 🛠️ Technical Information
+    ##  Technical Information
     
     ### **Data Processing**
     - Data cleaned and validated for accuracy
@@ -469,7 +469,7 @@ def show_help_page():
     - Feature engineering for optimal predictions
     - Regular model updates with new data
     
-    ## 📞 Support
+    ##  Support
     
     If you encounter any issues or have questions:
     - Check that all input fields are properly filled
