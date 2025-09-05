@@ -463,7 +463,7 @@ def main():
 
     mac_header(
         "Hyderabad House Price Predictor",
-        "Intelligent estimates for Hyderabad rentals with a refined macOS look."
+        "Intelligent estimates for Hyderabad rentals ."
     )
 
     # Load data if not already loaded
